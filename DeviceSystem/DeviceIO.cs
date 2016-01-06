@@ -20,6 +20,11 @@ namespace mz.betainteractive.sigeas.DeviceSystem {
         public void DownloadAttendanceData_TFT(out List<RawUserClock> clocks) {
             clocks = new List<RawUserClock>();
 
+            if (!IsTFTMachine()) {
+                DownloadAttendanceData_BW(out clocks);
+                return;
+            }
+
             string srEnrollNumber = "";
             int dwVerifyMode = -1;
             int dwInOutMode = -1;            
@@ -46,27 +51,94 @@ namespace mz.betainteractive.sigeas.DeviceSystem {
                     
                 string ACardNumber = "";
 
-                device.BiometricSDK.SSR_GetUserInfo(1, srEnrollNumber, out Name, out Password, out Privilege, out Enabled);
-                device.BiometricSDK.GetStrCardNumber(out ACardNumber);
+                try
+                {
 
-                int dwEnrollNumber = Int32.Parse(srEnrollNumber);
-                DateTime dateAndTime = new DateTime(dwYear, dwMonth, dwDay, dwHour, dwMinute, dwSecond);                              
-                
-                RawUserClock userClock = new RawUserClock();
-                userClock.Id = id;
-                userClock.EnrollNumber = srEnrollNumber;
-                userClock.CardNumber = ACardNumber;
-                userClock.Name = Name;
-                userClock.DeviceSerialNumber = serialNumber;
-                userClock.VerifyMode = dwVerifyMode;
-                userClock.InOutMode = dwInOutMode;
-                userClock.DateAndTime = dateAndTime;                                
+                    Console.WriteLine("" + srEnrollNumber + ", " + Name + ", " + Password + ", " + Privilege + ", " + Enabled);
 
-                clocks.Add(userClock);
+                    device.BiometricSDK.SSR_GetUserInfo(1, srEnrollNumber, out Name, out Password, out Privilege, out Enabled);
+                    device.BiometricSDK.GetStrCardNumber(out ACardNumber);
+                    int dwEnrollNumber = Int32.Parse(srEnrollNumber);
+                    DateTime dateAndTime = new DateTime(dwYear, dwMonth, dwDay, dwHour, dwMinute, dwSecond);
 
+                    RawUserClock userClock = new RawUserClock();
+                    userClock.Id = id;
+                    userClock.EnrollNumber = srEnrollNumber;
+                    userClock.CardNumber = ACardNumber;
+                    userClock.Name = Name;
+                    userClock.DeviceSerialNumber = serialNumber;
+                    userClock.VerifyMode = dwVerifyMode;
+                    userClock.InOutMode = dwInOutMode;
+                    userClock.DateAndTime = dateAndTime;
+
+                    clocks.Add(userClock);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
                 id++;
             }
             
+        }
+
+        public void DownloadAttendanceData_BW(out List<RawUserClock> clocks) {
+            clocks = new List<RawUserClock>();
+
+            //string srEnrollNumber = "";
+            int dwVerifyMode = -1;
+            int dwInOutMode = -1;
+            int dwYear = -1, dwMonth = -1, dwDay = -1, dwHour = -1, dwMinute = -1, dwSecond = -1;
+            int dwWorkcode = -1;
+            int dwReserved = -1;
+            int dwEnrollNumber = -1;
+
+            string Name = "", Password = "";
+            int Privilege = 0;
+            bool Enabled = false;
+
+            device.BiometricSDK.ReadAllGLogData(1);
+            device.BiometricSDK.ReadAllUserID(1);
+            int id = 1;
+            string serialNumber = "";
+
+            GetSerialNumber(out serialNumber);
+
+            if (serialNumber == "") {
+                serialNumber = device.SerialNumber;
+            }
+
+            //while (device.BiometricSDK.SSR_GetGeneralLogData(1, out srEnrollNumber, out dwVerifyMode, out dwInOutMode, out dwYear, out dwMonth, out dwDay, out dwHour, out dwMinute, out dwSecond, ref dwWorkcode)) {
+            while (device.BiometricSDK.GetGeneralExtLogData(1, ref dwEnrollNumber, ref dwVerifyMode, ref dwInOutMode, ref dwYear, ref dwMonth, ref dwDay, ref dwHour, ref dwMinute, ref dwSecond, ref dwWorkcode, ref dwReserved)) {
+
+                //string ACardNumber = "";
+
+                try {
+                   
+                    device.BiometricSDK.GetUserInfo(1, dwEnrollNumber, ref Name, ref Password, ref Privilege, ref Enabled);
+                    //device.BiometricSDK.GetStrCardNumber(out ACardNumber);
+                    //int dwEnrollNumber = Int32.Parse(srEnrollNumber);
+                    DateTime dateAndTime = new DateTime(dwYear, dwMonth, dwDay, dwHour, dwMinute, dwSecond);
+
+                    Console.WriteLine("" + dwEnrollNumber + ", " + Name + ", " + Password + ", " + Privilege + ", " + Enabled +", clock: " + dateAndTime);
+
+                    RawUserClock userClock = new RawUserClock();
+                    userClock.Id = id;
+                    userClock.EnrollNumber = dwEnrollNumber+"";
+                    //userClock.CardNumber = ACardNumber;
+                    userClock.Name = Name;
+                    userClock.DeviceSerialNumber = serialNumber;
+                    userClock.VerifyMode = dwVerifyMode;
+                    userClock.InOutMode = dwInOutMode;
+                    userClock.DateAndTime = dateAndTime;
+
+                    clocks.Add(userClock);
+                } catch (Exception ex) {
+                    Console.WriteLine(ex.Message);
+                }
+                id++;
+            }
+
         }
 
         public bool DeleteAllAttendaceData() {
@@ -118,6 +190,14 @@ namespace mz.betainteractive.sigeas.DeviceSystem {
             if (this.device.Connected) {
                 this.device.BiometricSDK.GetFirmwareVersion(1, ref firmwareVersion);
             }
+        }
+
+        public bool IsTFTMachine() {
+            if (this.device.Connected) {
+                return this.device.BiometricSDK.IsTFTMachine(1);
+            }
+
+            return false;
         }
 
         public void BlockDevice() {
