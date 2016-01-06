@@ -1,0 +1,19 @@
+﻿1. Database developed - 01-07-2013.
+2. Insert Basic Data on Database. - 01-07-2013.
+3. We are using TFT Devices
+
+
+# Migrations - Update DB
+  
+    Run the ‘Update-Database -Script -SourceMigration:$InitialDatabase -TargetMigration:"AddPostAbstract"’ command in Package Manager Console. 
+
+sql test
+INSERT INTO `sigeas_database`.`rolepermission` (`Name`) VALUES ('Gravar Usuarios');
+
+INSERT INTO `sigeas_database`.`rolepermission` (`Name`) VALUES ('Verificar Saldos');
+
+INSERT INTO `sigeas_database`.`rolepermission` (`Name`) VALUES ('Modificar Permissoes');
+
+INSERT INTO `sigeas_database`.`rolepermission` (`Name`) VALUES ('Falar de Cristo');
+
+INSERT INTO `sigeas_database`.`rolepermission` (`Name`) VALUES ('Testar Applicacoes');
