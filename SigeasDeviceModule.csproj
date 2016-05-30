@@ -32,9 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>dll-forms\EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="IPAddressControlLib">
       <HintPath>dll-forms\forms\IPAddressControlLib.dll</HintPath>
     </Reference>
