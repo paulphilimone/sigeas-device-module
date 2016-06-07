@@ -16,10 +16,12 @@ namespace mz.betainteractive.sigeas.Models.Entities {
         public virtual IDeviceTimezone DeviceTimezone1 { get; set; }
         public virtual IDeviceTimezone DeviceTimezone2 { get; set; }
         public virtual IDeviceTimezone DeviceTimezone3 { get; set; }
-        public virtual List<IUserFingerprint> UserFingerprints { get; set; }        
+        public virtual List<IUserFingerprint> UserFingerprints { get; set; }
+        public virtual List<IUserFace> UserFaces { get; set; }        
 
         public IUser() {
             this.UserFingerprints = new List<IUserFingerprint>();
+            this.UserFaces = new List<IUserFace>();
         }
         
     }

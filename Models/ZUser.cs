@@ -19,10 +19,12 @@ namespace mz.betainteractive.sigeas.zdbx.models {
         public virtual ZDeviceTimezone DeviceTimezone1 { get; set; }
         public virtual ZDeviceTimezone DeviceTimezone2 { get; set; }
         public virtual ZDeviceTimezone DeviceTimezone3 { get; set; }
-        public virtual List<ZUserFingerprint> UserFingerprints { get; set; }        
+        public virtual List<ZUserFingerprint> UserFingerprints { get; set; }
+        public virtual List<ZUserFace> UserFaces { get; set; } 
 
         public ZUser() {
             this.UserFingerprints = new List<ZUserFingerprint>();
+            this.UserFaces = new List<ZUserFace>();
         }
 
         public override bool Equals(object obj) {
@@ -34,6 +36,7 @@ namespace mz.betainteractive.sigeas.zdbx.models {
         }
 
         public bool HasNewFingerprints { get; set; }
+        public bool HasNewFaces { get; set; }
         public bool HasNewCardNumber { get; set; }
     }
 }

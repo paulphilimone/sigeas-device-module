@@ -21,7 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -61,6 +61,7 @@
     <Compile Include="BackgroundFeatures\SampleRunProgress.cs" />
     <Compile Include="DeviceSystem\DeviceConnector.cs" />
     <Compile Include="DeviceSystem\DeviceIO.cs" />
+    <Compile Include="DeviceSystem\RawFingerprint.cs" />
     <Compile Include="DeviceSystem\RawUserClock.cs" />
     <Compile Include="DeviceSystem\RawUser.cs" />
     <Compile Include="DeviceSystem\Views\UserSetCardNumber.cs">
@@ -75,6 +76,8 @@
     <Compile Include="DeviceSystem\Views\UserSetFingerprint.designer.cs">
       <DependentUpon>UserSetFingerprint.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\ZUserFace.cs" />
+    <Compile Include="Models\Entities\IUserFace.cs" />
     <Compile Include="Models\Entities\IDevice.cs" />
     <Compile Include="Models\Entities\IDeviceGroupTimezone.cs" />
     <Compile Include="Models\Entities\IDeviceTimezone.cs" />
