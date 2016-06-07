@@ -22,7 +22,7 @@ namespace mz.betainteractive.sigeas.DeviceSystem {
         private int BaudRate;
         private bool connected;
         private int connecting;
-        public bool eventsRegistered;        
+        public bool eventsRegistered;       
         private BackgroundWorker backgroundWorkerConnect;
         private LoadingWindow loadingWindow;
 
@@ -107,8 +107,8 @@ namespace mz.betainteractive.sigeas.DeviceSystem {
                     MessageBox.Show("Não foi possivel conectar-se ao dispositivo", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     
                     if (this.device != null) {
-                        this.device.Connected = false;
-                        this.device.BiometricSDK = null;                        
+                        //this.device.Connected = false;
+                        this.device.TerminateSDK();
                     }
 
                     return;
@@ -123,8 +123,8 @@ namespace mz.betainteractive.sigeas.DeviceSystem {
                     if (sn.Length == 0) {
                         MessageBox.Show("Não foi possivel obter o (número de série) do dispositivo, a conexão será desfeita", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.device.BiometricSDK.Disconnect();
-                        this.device.Connected = false;
-                        this.device.BiometricSDK = null;
+                        //this.device.Connected = false;
+                        this.device.TerminateSDK();
                         return;
                     }
 
@@ -132,19 +132,19 @@ namespace mz.betainteractive.sigeas.DeviceSystem {
                     if (sn != device.SerialNumber) {
                         MessageBox.Show("O (número de série) do biometrico registrado no sistema é diferente a do biométrico que foi conectado, Por causa desta incompatibilidade a conexão será desfeita", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.device.BiometricSDK.Disconnect();
-                        this.device.Connected = false;
-                        this.device.BiometricSDK = null;
+                        //this.device.Connected = false;
+                        this.device.TerminateSDK();
                         return;
                     }
-                }
+                }                                
                                 
             } catch (System.FormatException ex) {
                 MessageBox.Show("Ocorreu um erro ao tentar conectar ao biometrico", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 LogErrors.AddErrorLog(ex, "Ocorreu um erro ao tentar conectar ao biometrico");
                 
                 if (device != null) {
-                    this.device.Connected = false;
-                    this.device.BiometricSDK = null;
+                    //this.device.Connected = false;
+                    this.device.TerminateSDK();
                 }
 
                 return;
@@ -159,56 +159,6 @@ namespace mz.betainteractive.sigeas.DeviceSystem {
         void backgroundWorkerConnect_DoWork(object sender, DoWorkEventArgs e) {
             ConnectTest();
         }                
-
-        /*
-        /// <summary>
-        /// This function run a processing and display the progress with RuProgressBar
-        /// </summary>
-        public void StartConnection() {
-            try {
-                // Init ProgressBar
-                ProgressWindow progress = new ProgressWindow();
-                progress.Text = "Conectando....";                        
-
-
-                // Run Application with ProgressBar
-                System.Threading.ThreadPool.QueueUserWorkItem(new System.Threading.WaitCallback(ConnectTest), progress);
-
-                progress.ShowDialog();
-            } catch {
-            }
-
-        }
-
-        /// <summary>
-        ///  Function of progress should appear 
-        /// </summary>
-        /// <param name="status"></param>
-        private void ConnectTest(object status) {
-            try {
-                IProgressCallback callback = status as IProgressCallback;
-                ProgressWindow pw = status as ProgressWindow;                              
-                                
-                pw.LabelTextProgress.Text = "Conectando ao biométrico...";
-
-                // Init Progressbar
-                int iMax = 1000000;
-                callback.Begin(0, iMax / 10);                               
-
-                this.connected = ConnectDevice();
-
-                if (this.connected == false) {
-                    MessageBox.Show(this, "Não foi possivel conectar-se ao dispositivo",  "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-
-                // End Progressbar
-                callback.End();
-                
-            } catch (System.FormatException) {
-            }
-
-        }                
-        */
 
         public void SetTCPConnectionMode(string ipAddress, int port) {
             this.ConnectionType = 0;
@@ -302,8 +252,8 @@ namespace mz.betainteractive.sigeas.DeviceSystem {
             if (this.IsConnected()) {
                 this.BioAccess.GetProductCode(1, out ProductName);
             }
-        }       
-        
+        }
+                
         public void Disconnect() {
             if (this.BioAccess != null) {
                 

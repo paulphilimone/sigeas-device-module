@@ -192,12 +192,8 @@ namespace mz.betainteractive.sigeas.DeviceSystem {
             }
         }
 
-        public bool IsTFTMachine() {
-            if (this.device.Connected) {
-                return this.device.BiometricSDK.IsTFTMachine(1);
-            }
-
-            return false;
+        public bool IsTFTMachine() {            
+            return this.device.IsTFTMachine();            
         }
 
         public void BlockDevice() {
@@ -278,6 +274,51 @@ namespace mz.betainteractive.sigeas.DeviceSystem {
                 return resul;
             }
             return false;
+        }
+
+        public bool GetUserTmp(string enrollNumber, int fingerIndex, out string templateData, out int templateLength) {
+            if (this.device.Connected) {
+                bool resul = false;
+                int flag = 0;
+
+                resul = this.device.BiometricSDK.GetUserTmpExStr(1, enrollNumber, fingerIndex, out flag, out templateData, out templateLength);
+                
+                return resul;
+            }
+
+            templateData = null;
+            templateLength = 0;
+
+            return false;
+        }
+
+        public bool GetAllUserTmp(List<string> users, out List<RawFingerprint> fingerprints) {
+
+            fingerprints = new List<RawFingerprint>();
+
+            if (this.device.Connected) {
+                
+                string templateData = "";
+                int templateLength = 0;
+                int flag = 0;
+
+                this.device.BiometricSDK.EnableDevice(1, false); 
+                this.device.BiometricSDK.ReadAllTemplate(1);
+
+                foreach (var enrollNumber in users) {
+                    for (int fingerIndex = 0; fingerIndex < 9; fingerIndex++) {
+                        if (this.device.BiometricSDK.GetUserTmpExStr(1, enrollNumber, fingerIndex, out flag, out templateData, out templateLength)) {
+                            fingerprints.Add(new RawFingerprint(Int32.Parse(enrollNumber), fingerIndex, templateData));
+                        }
+                    }
+                }
+
+                this.device.BiometricSDK.EnableDevice(1, true); 
+
+            }
+
+            
+            return true;
         }
 
         public bool DeleteUserInfo(string enrollNumber) {

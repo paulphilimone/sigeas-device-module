@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -125,7 +124,7 @@ namespace mz.betainteractive.sigeas.DeviceSystem.Views {
                 int TmpLength = 0;
                 int Flag = -1;
 
-                if (BioAccess.SSR_GetUserTmpStr(1, sEnroll, fingerIndex, out TmpData, out TmpLength)) {
+                if (BioAccess.GetUserTmpExStr(1, sEnroll, fingerIndex, out Flag, out TmpData, out TmpLength)) {
                     
                     registrationResult.Add(fingerIndex, TmpData);
                     registrationResult.EnrolledUserId = UserIdToEnroll;
@@ -167,7 +166,7 @@ namespace mz.betainteractive.sigeas.DeviceSystem.Views {
             Console.WriteLine("GetUserInfo: " + resul);
 
             if (resul) {
-                bool readed = BioAccess.SSR_GetUserTmpStr(1, EnrollNumber.ToString(), FingerIndex, out TmpData, out TmpLength);
+                bool readed = BioAccess.GetUserTmpExStr(1, EnrollNumber.ToString(), FingerIndex, out Flag, out TmpData, out TmpLength);
 
                 Console.WriteLine("GetUserTmpExStr: "+readed+", tmpData: "+TmpData);
 
