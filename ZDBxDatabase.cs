@@ -69,6 +69,7 @@ namespace mz.betainteractive.sigeas.zdbx {
                     Stream stream = saveFileDialog.OpenFile();
                     BinaryFormatter binaryFormatter = new BinaryFormatter();
                     binaryFormatter.Serialize(stream, database);
+                    stream.Close();
                     return true;
                 }
 
@@ -95,6 +96,7 @@ namespace mz.betainteractive.sigeas.zdbx {
                     binaryFormatter.Binder = new BindChanger();
 
                     database = (ZDBxDatabase) binaryFormatter.Deserialize(stream);
+                    stream.Close();
 
                     return database != null;
                 }

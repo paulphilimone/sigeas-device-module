@@ -31,9 +31,13 @@ namespace mz.betainteractive.sigeas.DeviceSystem {
             device.BiometricSDK.EnableDevice(1, false);
                         
             GetSerialNumber(out serialNumber);
-            serialNumber = serialNumber == "" ? device.SerialNumber : "";
 
-            Console.WriteLine("Reading all data");
+            if (serialNumber == null || serialNumber.Length==0) {
+                serialNumber = device.SerialNumber;
+            }
+            
+
+            Console.WriteLine("Reading all data "+serialNumber);
             device.BiometricSDK.ReadGeneralLogData(1);           
             
 

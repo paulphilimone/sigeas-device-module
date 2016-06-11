@@ -102,7 +102,9 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Utilities\BetaEncryptation.cs" />
-    <Compile Include="Utilities\Collections.cs" />
+    <Compile Include="Utilities\Collections.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Utilities\Components.cs" />
     <Compile Include="Utilities\CSVReader.cs" />
     <Compile Include="Utilities\DateUtilities.cs" />

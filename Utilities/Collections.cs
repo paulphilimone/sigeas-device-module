@@ -85,9 +85,15 @@ namespace mz.betainteractive.sigeas.Utilities {
         public override string ToString() {
             return this.Value.ToString();
         }
-    }          
+    }
 
-    
+    public class ContextMenuStripGeneric<T> : ContextMenuStrip {
+        public T Value;
+        public ContextMenuStripGeneric(T value) {
+            this.Value = value;
+        }
+    }
+
     public class ListViewGenericItem<T> : ListViewItem {
         public T Value;
         public bool ReadOnly;
