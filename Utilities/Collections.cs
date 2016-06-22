@@ -89,8 +89,20 @@ namespace mz.betainteractive.sigeas.Utilities {
 
     public class ContextMenuStripGeneric<T> : ContextMenuStrip {
         public T Value;
+
+        public ContextMenuStripGeneric() {
+            
+        }
         public ContextMenuStripGeneric(T value) {
             this.Value = value;
+        }
+    }
+        
+    public class ToolStripMenuItemGeneric<T> : ToolStripMenuItem {
+        public T Value;
+        public ToolStripMenuItemGeneric(T value) {
+            this.Value = value;
+            this.Text = value.ToString();
         }
     }
 
@@ -124,6 +136,59 @@ namespace mz.betainteractive.sigeas.Utilities {
         public T Value;
 
         public DataGridViewCheckBoxColumnGeneric(T value) {
+            this.Value = value;
+        }
+
+    }
+
+    public class DataGridViewTextBoxCellGeneric<T> : DataGridViewTextBoxCell {
+        public T GenericValue;
+
+        public DataGridViewTextBoxCellGeneric() { }
+
+        public DataGridViewTextBoxCellGeneric(T value) {
+            this.GenericValue = value;
+        }
+
+        public void SetTextUsingValue(){
+            this.Value = GenericValue != null ? GenericValue.ToString() : "";
+        }
+        /*
+        protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object value, object formattedValue, string errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts) {
+            base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, value, formattedValue, errorText, cellStyle, advancedBorderStyle, paintParts);
+
+
+            int x = cellBounds.X;
+            int y = cellBounds.Y;
+            int w = cellBounds.Width;
+            int h = cellBounds.Height;
+
+            Rectangle rect = new Rectangle(x+w-20, y, 20, 20);
+
+
+            graphics.DrawRectangle(Pens.Black, rect);
+        }
+        */
+    }
+
+    public class DataGridViewTextBoxColumnGeneric<T> : DataGridViewTextBoxColumn {
+        public T Value;
+
+        
+
+        public DataGridViewTextBoxColumnGeneric(T value) {
+            this.Value = value;
+        }
+
+    }
+
+    public class DataGridViewComboBoxCellGeneric<T> : DataGridViewComboBoxCell {
+        public T Value;
+
+        public DataGridViewComboBoxCellGeneric() {         
+        }
+
+        public DataGridViewComboBoxCellGeneric(T value) {
             this.Value = value;
         }
 

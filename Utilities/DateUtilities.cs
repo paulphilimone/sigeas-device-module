@@ -284,6 +284,14 @@ namespace mz.betainteractive.sigeas.Utilities {
 
             return dataInicial + " á " + dataFinal;
         }
+
+        public static String GetPeriodoShort(DateBounds bounds) {
+            CultureInfo ci = new CultureInfo("pt-PT");
+            String dataInicial = bounds.First.ToString("dd MMM", ci);
+            String dataFinal = bounds.Last.ToString("dd MMM", ci);
+
+            return dataInicial + " á " + dataFinal;
+        }
     }
     
     public class DateBounds {            
