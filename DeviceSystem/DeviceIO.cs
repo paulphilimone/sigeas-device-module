@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using mz.betainteractive.sigeas.Models.Entities;
-using mz.betainteractive.sigeas.Utilities;
 using mz.betainteractive.sigeas.Models;
 
 namespace mz.betainteractive.sigeas.DeviceSystem {

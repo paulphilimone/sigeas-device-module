@@ -46,19 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackgroundFeatures\IProgressCallback.cs" />
-    <Compile Include="BackgroundFeatures\LoadingWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BackgroundFeatures\LoadingWindow.Designer.cs">
-      <DependentUpon>LoadingWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BackgroundFeatures\OnExecuteDialog.cs" />
-    <Compile Include="BackgroundFeatures\OnProgressiveExecuteDialog.cs" />
-    <Compile Include="BackgroundFeatures\ProgressWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BackgroundFeatures\SampleRunProgress.cs" />
     <Compile Include="DeviceSystem\DeviceConnector.cs" />
     <Compile Include="DeviceSystem\DeviceIO.cs" />
     <Compile Include="DeviceSystem\RawFingerprint.cs" />
@@ -101,15 +88,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Utilities\BetaEncryptation.cs" />
-    <Compile Include="Utilities\Collections.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Utilities\Components.cs" />
-    <Compile Include="Utilities\CSVReader.cs" />
-    <Compile Include="Utilities\DateUtilities.cs" />
-    <Compile Include="Utilities\LogErrors.cs" />
-    <Compile Include="Utilities\StringUtilities.cs" />
     <Compile Include="ZDBxDatabase.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -163,12 +141,6 @@
     <None Include="Resources\signed_document_contract_clip_art_26508.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="BackgroundFeatures\LoadingWindow.resx">
-      <DependentUpon>LoadingWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BackgroundFeatures\ProgressWindow.resx">
-      <DependentUpon>ProgressWindow.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="DeviceSystem\Views\UserSetCardNumber.resx">
       <DependentUpon>UserSetCardNumber.cs</DependentUpon>
     </EmbeddedResource>
@@ -198,6 +170,12 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bi-utilities-module\BiUtilitiesModule.csproj">
+      <Project>{FF298101-31A2-430C-94FB-1310B4A0566B}</Project>
+      <Name>BiUtilitiesModule</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

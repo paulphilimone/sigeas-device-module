@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using mz.betainteractive.sigeas.BackgroundFeatures;
+using mz.betainteractive.utilities.module.BackgroundFeatures;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Threading;
-using mz.betainteractive.sigeas.Utilities;
 using mz.betainteractive.sigeas.Models.Entities;
+using mz.betainteractive.utilities.module.General;
 
 namespace mz.betainteractive.sigeas.DeviceSystem {
 
