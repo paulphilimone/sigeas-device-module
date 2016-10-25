@@ -13,6 +13,7 @@ using mz.betainteractive.sigeas.Models.Entities;
 namespace mz.betainteractive.sigeas.DeviceSystem.Views {
     public partial class UserSetFingerprint : Form {
 
+        private DeviceIO deviceIO;
         private IDevice device;
         private Polygon[] fing = new Polygon[10];
         private int onHoverIndex = -1;
@@ -33,9 +34,7 @@ namespace mz.betainteractive.sigeas.DeviceSystem.Views {
          * Usado para caso de registrar e obter fingerprints de dispositivos temporarios
          */
         public bool AfterEnrollDelete;
-
-        private zkemkeeper.CZKEMClass BioAccess;
-
+              
         private FingerprintResult registrationResult;
 
         public UserSetFingerprint() {
@@ -54,6 +53,7 @@ namespace mz.betainteractive.sigeas.DeviceSystem.Views {
 
             //var SDB = FrmMainProgram.SystemDatabase;
             this.device = dev;
+            this.deviceIO = new DeviceIO(dev);
                         
             if (this.device == null) {
                 MessageBox.Show(this, "Não existem dispositivos conectados ao sistema!\nConecte um dispositivo primeiro");
@@ -64,8 +64,7 @@ namespace mz.betainteractive.sigeas.DeviceSystem.Views {
                 MessageBox.Show(this, "O dispositivo selecionado não está conectado ao sistema!\nConecte o dispositivo primeiro");
                 return;
             }
-
-            BioAccess = this.device.BiometricSDK;
+                        
             AddListeners();
             
             //this.Visible = true;
@@ -99,87 +98,31 @@ namespace mz.betainteractive.sigeas.DeviceSystem.Views {
             
             ClearFingerPrints();
 
-            BioAccess.RefreshData(1);
-            BioAccess.EnableDevice(1, false);            
-            BioAccess.ReadAllUserID(1);
-            BioAccess.ReadAllTemplate(1);
-            
-            int machineNumber = 1;
-            string sEnroll = UserIdToEnroll.ToString();
-            string sName = "";
-            string sPassword = "";
-            int iPrivilege = 0;
-            bool bEnabled = false;
+            List<RawFingerprint> fingerprints = null;
+            bool result = deviceIO.GetUserTmps(UserIdToEnroll.ToString(), out fingerprints);
 
-            bool resul = BioAccess.SSR_GetUserInfo(machineNumber, sEnroll, out sName, out sPassword, out iPrivilege, out bEnabled);
-
-            //Console.WriteLine("Data: "+resul);
-            if (resul) {
+            if (result) {
                 registrationResult.EnrolledUserId = UserIdToEnroll;
             }
 
-            for (int fingerIndex = 0; fingerIndex < drawFinger.Length; fingerIndex++) {
+            foreach ( var fingerPrint in fingerprints) {
+                int fingerIndex = fingerPrint.FingerIndex;
+                string TmpData = fingerPrint.TemplateData;
+                
+                registrationResult.Add(fingerIndex, TmpData);
+                registrationResult.EnrolledUserId = UserIdToEnroll;
 
-                string TmpData = "";
-                int TmpLength = 0;
-                int Flag = -1;
-
-                if (BioAccess.GetUserTmpExStr(1, sEnroll, fingerIndex, out Flag, out TmpData, out TmpLength)) {
-                    
-                    registrationResult.Add(fingerIndex, TmpData);
-                    registrationResult.EnrolledUserId = UserIdToEnroll;
-
-                    drawFinger[fingerIndex] = true;
-                } else {
-                    drawFinger[fingerIndex] = false;
-                }
+                drawFinger[fingerIndex] = true;             
             }
-                        
-            BioAccess.EnableDevice(1, true);
         }
                 
         private void DeleteUserAndFingerPrint(int EnrollNumber) {
             if (AfterEnrollDelete) {
-                bool delete = BioAccess.SSR_DeleteEnrollData(1, EnrollNumber.ToString(), 12);
+                bool delete = deviceIO.DeleteUserInfo(EnrollNumber.ToString());
                 //Console.WriteLine("dELETE: " + delete);
-                BioAccess.RefreshData(1);
             }
         }
-
-        private void GravarFingerprintNoResult(int EnrollNumber, int FingerIndex) {            
-            string TmpData = "";
-            int TmpLength = 0;                        
-
-            int machineNumber = 1;
-            string sEnroll = UserIdToEnroll.ToString();
-            string sName = "";
-            string sPassword = "";
-            int iPrivilege = 0;
-            bool bEnabled = false;
-            int Flag = 0;
-
-            //BioAccess.RefreshData(1);
-            BioAccess.EnableDevice(1, false);            
-            BioAccess.ReadAllTemplate(1);
-
-            bool resul = BioAccess.SSR_GetUserInfo(machineNumber, sEnroll, out sName, out sPassword, out iPrivilege, out bEnabled);
-            Console.WriteLine("GetUserInfo: " + resul);
-
-            if (resul) {
-                bool readed = BioAccess.GetUserTmpExStr(1, EnrollNumber.ToString(), FingerIndex, out Flag, out TmpData, out TmpLength);
-
-                Console.WriteLine("GetUserTmpExStr: "+readed+", tmpData: "+TmpData);
-
-                if (readed) {
-                    Fingerprint fingerPrint = new Fingerprint(FingerIndex, TmpData);
-                    registrationResult.Add(fingerPrint);
-                    registrationResult.EnrolledUserId = EnrollNumber;
-                }
-            }
-
-            BioAccess.EnableDevice(1, true);
-        }
-                
+                        
         public FingerprintResult GetCurrentFingerprintResult() {
             return registrationResult;
         }
@@ -195,28 +138,28 @@ namespace mz.betainteractive.sigeas.DeviceSystem.Views {
         private void ExecuteEnrollment() {            
             verifyTimes = 0;                       
 
-            BioAccess.CancelOperation();
-            BioAccess.SSR_DelUserTmpExt(1, UserIdToEnroll.ToString(), selectedIndex);         
+            this.deviceIO.CancelOperation();
+            this.deviceIO.DeleteUserTmp(UserIdToEnroll.ToString(), selectedIndex);        
             isEnrolling = true;
 
-            if (BioAccess.StartEnrollEx(UserIdToEnroll.ToString(), selectedIndex, 1)) {                
+            if (this.deviceIO.StartEnroll(UserIdToEnroll.ToString(), selectedIndex)) {
                 labMsg.Text = "Coloque o dedo";                
             } else {
-                int idwErrorCode = -1;
-                BioAccess.GetLastError(ref idwErrorCode);
-                MessageBox.Show(this, "Ocorreu um falha, não é possivel registrar, Error nº=" + idwErrorCode.ToString(), "Error");
+                string error = "";
+                this.deviceIO.GetLastError(out error);
+                MessageBox.Show(this, "Ocorreu um falha, não é possivel registrar, Error nº=" + error, "Error");
                 isEnrolling = false;
             }                        
         }
 
         private void RemoveListeners() {
-            BioAccess.OnEnrollFinger -= new zkemkeeper._IZKEMEvents_OnEnrollFingerEventHandler(BioAccess_OnEnrollFinger);            
-            BioAccess.OnFingerFeature -= new zkemkeeper._IZKEMEvents_OnFingerFeatureEventHandler(BioAccess_OnFingerFeature);
+            this.deviceIO.RemoveOnEnrollFinger(new zkemkeeper._IZKEMEvents_OnEnrollFingerEventHandler(BioAccess_OnEnrollFinger));
+            this.deviceIO.RemoveOnFingerFeature(new zkemkeeper._IZKEMEvents_OnFingerFeatureEventHandler(BioAccess_OnFingerFeature));
         }
 
         private void AddListeners() {
-            BioAccess.OnEnrollFinger += new zkemkeeper._IZKEMEvents_OnEnrollFingerEventHandler(BioAccess_OnEnrollFinger);            
-            BioAccess.OnFingerFeature += new zkemkeeper._IZKEMEvents_OnFingerFeatureEventHandler(BioAccess_OnFingerFeature);
+            this.deviceIO.AddOnEnrollFinger(new zkemkeeper._IZKEMEvents_OnEnrollFingerEventHandler(BioAccess_OnEnrollFinger));
+            this.deviceIO.AddOnFingerFeature(new zkemkeeper._IZKEMEvents_OnFingerFeatureEventHandler(BioAccess_OnFingerFeature));
         }
 
         private void BioAccess_OnFingerFeature(int Score) {
@@ -236,7 +179,7 @@ namespace mz.betainteractive.sigeas.DeviceSystem.Views {
             //In the finish after enroll            
             if (isEnrolling) {
                 bool isOk = false;
-                BioAccess.StartIdentify();
+                deviceIO.StartIdentify();
 
                 if (ActionResult == 0) {
                     labMsg.Text = "Registrado com sucesso";
@@ -859,8 +802,8 @@ namespace mz.betainteractive.sigeas.DeviceSystem.Views {
 
         private void cancel() {
             if (isEnrolling) {
-                BioAccess.CancelOperation();
-                BioAccess.StartIdentify();
+                deviceIO.CancelOperation();
+                deviceIO.StartIdentify();
                 labMsg.Text = "Operação cancelada";
             }
         }

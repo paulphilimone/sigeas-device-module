@@ -14,8 +14,9 @@ using mz.betainteractive.sigeas.Models.Entities;
 namespace mz.betainteractive.sigeas.DeviceSystem.Views {
     public partial class UserSetCardNumber : Form {
 
+        private DeviceIO deviceIO;
         private IDevice device;        
-        private zkemkeeper.CZKEMClass BioAccess;
+        //private zkemkeeper.CZKEMClass BioAccess;
 
         private bool isEnrolling { get; set; }
         private bool hasEnrolled;
@@ -26,8 +27,10 @@ namespace mz.betainteractive.sigeas.DeviceSystem.Views {
         }        
 
         public void StartForm(IDevice dev) {
-            
+
             this.device = dev;
+            this.deviceIO = new DeviceIO(dev);
+            
             this.hasEnrolled = false;
                         
             if (this.device == null) {
@@ -41,10 +44,10 @@ namespace mz.betainteractive.sigeas.DeviceSystem.Views {
             }
 
             isEnrolling = true;
-            BioAccess = this.device.BiometricSDK;
-            
-            BioAccess.CancelOperation();
-            BioAccess.StartIdentify();
+            //BioAccess = this.device.BiometricSDK;
+
+            this.deviceIO.CancelOperation();
+            this.deviceIO.StartIdentify();
 
             AddListeners();
 
@@ -54,11 +57,11 @@ namespace mz.betainteractive.sigeas.DeviceSystem.Views {
 
      
         private void RemoveListeners() {
-            BioAccess.OnHIDNum -= new zkemkeeper._IZKEMEvents_OnHIDNumEventHandler(BioAccess_OnHIDNum);
+            this.deviceIO.AddOnHIDNum(new zkemkeeper._IZKEMEvents_OnHIDNumEventHandler(BioAccess_OnHIDNum));
         }
 
         private void AddListeners() {
-            BioAccess.OnHIDNum += new zkemkeeper._IZKEMEvents_OnHIDNumEventHandler(BioAccess_OnHIDNum);            
+            this.deviceIO.RemoveOnHIDNum(new zkemkeeper._IZKEMEvents_OnHIDNumEventHandler(BioAccess_OnHIDNum));
         }
 
         private void BioAccess_OnHIDNum(int CardNumber) {
@@ -75,7 +78,7 @@ namespace mz.betainteractive.sigeas.DeviceSystem.Views {
             this.btOk.Enabled = true;
 
             RemoveListeners();
-            BioAccess.StartIdentify();
+            this.deviceIO.StartIdentify();
         }               
 
         private void btCancel_Click(object sender, EventArgs e) {
@@ -86,8 +89,8 @@ namespace mz.betainteractive.sigeas.DeviceSystem.Views {
         private void cancel() {
             if (isEnrolling) {
                 RemoveListeners();
-                BioAccess.CancelOperation();
-                BioAccess.StartIdentify();
+                this.deviceIO.CancelOperation();
+                this.deviceIO.StartIdentify();
                 labMsg.Text = "Operação cancelada";
             }
         }

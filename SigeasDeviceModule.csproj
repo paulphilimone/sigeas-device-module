@@ -48,6 +48,9 @@
   <ItemGroup>
     <Compile Include="DeviceSystem\DeviceConnector.cs" />
     <Compile Include="DeviceSystem\DeviceIO.cs" />
+    <Compile Include="DeviceSystem\IO\BWSeriesSdk.cs" />
+    <Compile Include="DeviceSystem\IO\ISeriesSdk.cs" />
+    <Compile Include="DeviceSystem\IO\TFTSeriesSdk.cs" />
     <Compile Include="DeviceSystem\RawFingerprint.cs" />
     <Compile Include="DeviceSystem\RawUserClock.cs" />
     <Compile Include="DeviceSystem\RawUser.cs" />
