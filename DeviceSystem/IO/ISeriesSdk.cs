@@ -11,33 +11,33 @@ namespace mz.betainteractive.sigeas.DeviceSystem.IO {
 
         #region Users Information
 
-        public void GetAvaiableUsersID(out SortedSet<int> avaiables, out int refMaxUsers);
+        void GetAvaiableUsersID(out SortedSet<int> avaiables, out int refMaxUsers);
 
-        public bool StartEnroll(string enrollNumber, int fingerIndex);
+        bool StartEnroll(string enrollNumber, int fingerIndex);
 
-        public bool SetUserInfo(string enrollNumber, string cardNumber, string userName, string password, int privilege, bool enabled);
+        bool SetUserInfo(string enrollNumber, string cardNumber, string userName, string password, int privilege, bool enabled);
 
-        public bool SetUserTmp(string enrollNumber, int fingerIndex, string templateData);
+        bool SetUserTmp(string enrollNumber, int fingerIndex, string templateData);
 
-        public bool GetUserTmp(string enrollNumber, int fingerIndex, out string templateData, out int templateLength);
+        bool GetUserTmp(string enrollNumber, int fingerIndex, out string templateData, out int templateLength);
 
-        public bool DeleteUserTmp(string enrollNumber, int fingerIndex);
+        bool DeleteUserTmp(string enrollNumber, int fingerIndex);
 
-        public bool GetUserTmps(string enrollNumber, out List<RawFingerprint> fingerprints);
+        bool GetUserTmps(string enrollNumber, out List<RawFingerprint> fingerprints);
 
-        public bool GetAllUserTmp(List<string> users, out List<RawFingerprint> fingerprints);
+        bool GetAllUserTmp(List<string> users, out List<RawFingerprint> fingerprints);
 
-        public bool DeleteUserInfo(string enrollNumber);
+        bool DeleteUserInfo(string enrollNumber);
 
-        public void GetBasicUserInfo(out List<RawUser> users);
+        void GetBasicUserInfo(out List<RawUser> users);
 
         #endregion
 
         #region Attendance Data
 
-        public void DownloadAttendanceData(out List<RawUserClock> clocks);
+        void DownloadAttendanceData(out List<RawUserClock> clocks);
 
-        public bool DeleteAllAttendaceData();
+        bool DeleteAllAttendaceData();
 
         #endregion
 
