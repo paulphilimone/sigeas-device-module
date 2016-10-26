@@ -286,6 +286,17 @@ namespace mz.betainteractive.sigeas.DeviceSystem.IO {
             return false;
         }
 
+        public bool DeleteAllUserData() {
+            bool r1 = device.BiometricSDK.ClearData(1,1);
+            bool r2 = device.BiometricSDK.ClearData(1, 5);
+
+            return r1 && r2;
+        }
+
+        public bool DeleteAllData() {
+            return device.BiometricSDK.ClearKeeperData(1);
+        }
+
         #endregion
     }
 }

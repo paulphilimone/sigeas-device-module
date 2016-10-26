@@ -136,6 +136,8 @@ namespace mz.betainteractive.sigeas.DeviceSystem {
                         this.device.TerminateSDK();
                         return;
                     }
+
+                    //detect type, BW, TFT, MULTIFACE
                 }                                
                                 
             } catch (System.FormatException ex) {

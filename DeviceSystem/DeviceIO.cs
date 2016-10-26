@@ -182,6 +182,14 @@ namespace mz.betainteractive.sigeas.DeviceSystem {
             return this.deviceSdk.DeleteAllAttendaceData();
         }
 
+        public bool DeleteAllUserData() {
+            return this.deviceSdk.DeleteAllUserData();
+        }
+
+        public bool DeleteAllData() {
+            return this.deviceSdk.DeleteAllData();
+        }
+
         #endregion
     }
 }

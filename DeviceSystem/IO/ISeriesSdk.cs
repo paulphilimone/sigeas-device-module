@@ -39,6 +39,10 @@ namespace mz.betainteractive.sigeas.DeviceSystem.IO {
 
         bool DeleteAllAttendaceData();
 
+        bool DeleteAllUserData();
+
+        bool DeleteAllData();
+
         #endregion
 
     }
