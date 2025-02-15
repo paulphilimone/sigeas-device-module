@@ -1,160 +1,16 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DEA7E89B-FACE-47E6-9786-B95C87F1A05E}</ProjectGuid>
+    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>mz.betainteractive.sigeas</RootNamespace>
-    <AssemblyName>SigeasDeviceModule</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="IPAddressControlLib">
       <HintPath>dll-forms\forms\IPAddressControlLib.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="DeviceSystem\DeviceConnector.cs" />
-    <Compile Include="DeviceSystem\DeviceIO.cs" />
-    <Compile Include="DeviceSystem\IO\BWSeriesSdk.cs" />
-    <Compile Include="DeviceSystem\IO\ISeriesSdk.cs" />
-    <Compile Include="DeviceSystem\IO\TFTSeriesSdk.cs" />
-    <Compile Include="DeviceSystem\RawFingerprint.cs" />
-    <Compile Include="DeviceSystem\RawUserClock.cs" />
-    <Compile Include="DeviceSystem\RawUser.cs" />
-    <Compile Include="DeviceSystem\Views\UserSetCardNumber.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DeviceSystem\Views\UserSetCardNumber.designer.cs">
-      <DependentUpon>UserSetCardNumber.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DeviceSystem\Views\UserSetFingerprint.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DeviceSystem\Views\UserSetFingerprint.designer.cs">
-      <DependentUpon>UserSetFingerprint.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ZUserFace.cs" />
-    <Compile Include="Models\Entities\IUserFace.cs" />
-    <Compile Include="Models\Entities\IDevice.cs" />
-    <Compile Include="Models\Entities\IDeviceGroupTimezone.cs" />
-    <Compile Include="Models\Entities\IDeviceTimezone.cs" />
-    <Compile Include="Models\Entities\IDeviceType.cs" />
-    <Compile Include="Models\Entities\IInOutMode.cs" />
-    <Compile Include="Models\Entities\IUser.cs" />
-    <Compile Include="Models\Entities\IUserClock.cs" />
-    <Compile Include="Models\Entities\IUserFingerprint.cs" />
-    <Compile Include="Models\Entities\IVerifyMode.cs" />
-    <Compile Include="Models\Override\IDevice.cs" />
-    <Compile Include="Models\ZDevice.cs" />
-    <Compile Include="Models\ZDeviceGroupTimezone.cs" />
-    <Compile Include="Models\ZDeviceTimezone.cs" />
-    <Compile Include="Models\ZDeviceUser.cs" />
-    <Compile Include="Models\ZUser.cs" />
-    <Compile Include="Models\ZUserClock.cs" />
-    <Compile Include="Models\ZUserFingerprint.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <DependentUpon>Resources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="ZDBxDatabase.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\1211809892.png" />
-    <None Include="Resources\countries.csv" />
-    <None Include="Resources\mozambique.csv" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\125KHz_RFID_Card.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\15991504-vector-icon-credit-card-and-lock.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\betaSplashScreen.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Connecting.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Connecting.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\contrato-.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\hotel_icon-big.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\hotel_icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\id_card.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Imagem-de-um-glogo-terrestre-num-ambiente-azul1.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\images.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\My_documents_icon_by_shahriarshamim.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\role_icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\role_icon2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\signed_document_contract_clip_art_26508.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="DeviceSystem\Views\UserSetCardNumber.resx">
-      <DependentUpon>UserSetCardNumber.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DeviceSystem\Views\UserSetFingerprint.resx">
-      <DependentUpon>UserSetFingerprint.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Annotations\Development.txt" />
@@ -175,17 +31,10 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\bi-utilities-module\BiUtilitiesModule.csproj">
-      <Project>{FF298101-31A2-430C-94FB-1310B4A0566B}</Project>
-      <Name>BiUtilitiesModule</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\bi-utilities-module\BiUtilitiesModule.csproj" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+  </ItemGroup>
 </Project>
